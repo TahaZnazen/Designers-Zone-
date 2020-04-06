@@ -2,7 +2,18 @@ import React, { Component } from "react";
 import Slider from "rc-slider";
 import "rc-slider/assets/index.css";
 import "./navbar.css";
+import Select from "@material-ui/core/Select";
+import MenuItem from "@material-ui/core/MenuItem";
 class NavBar extends Component {
+  state = {
+    format: "hex",
+  };
+  handleChange = (e) => {
+    this.setState({
+      format: e.target.value,
+    });
+    this.props.changeFormat(e.target.value);
+  };
   render() {
     const { changeLevel, level } = this.props;
     return (
@@ -32,6 +43,13 @@ class NavBar extends Component {
               railStyle={{ height: "8px" }}
             />
           </div>
+        </div>
+        <div className="select-container">
+          <Select onChange={this.handleChange}>
+            <MenuItem value="hex">Hex - #ffffff</MenuItem>
+            <MenuItem value="rgb">RGB - rgb(255,255,255)</MenuItem>
+            <MenuItem value="rgba">RGBA - rgba(255,255,255,1.0)</MenuItem>
+          </Select>
         </div>
       </header>
     );
