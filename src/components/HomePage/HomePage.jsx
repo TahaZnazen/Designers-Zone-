@@ -4,8 +4,8 @@ import MiniPalette from "./miniPalette/MiniPalette";
 import { withStyles } from "@material-ui/core/styles";
 const styles = {
   root: {
-    backgroundColor: "red",
-    height: "100%",
+    backgroundColor: "#202020",
+    height: "100vh",
     display: "flex",
     alignItem: "flex-start",
     justifyContent: "center ",
