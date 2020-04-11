@@ -5,6 +5,7 @@ import { generatePalette } from "./colorHelper";
 import { Route, Switch } from "react-router-dom";
 import seedColor from "./seedColor";
 import HomePage from "./components/HomePage/HomePage";
+import SingleColorPalette from "./components/singleColorPalette/SingleColorPalette";
 function App() {
   const findPalette = (id) => {
     return seedColor.find((palette) => palette.id === id);
@@ -29,8 +30,15 @@ function App() {
       />
       <Route
         exact
-        path="/palette/:paletteId/:colorID"
-        render={() => <h1>single Palette clicked</h1>}
+        path="/palette/:paletteId/:colorId"
+        render={(routeProps) => (
+          <SingleColorPalette
+            colorId={routeProps.match.params.colorId}
+            paletteId={generatePalette(
+              findPalette(routeProps.match.params.paletteId)
+            )}
+          />
+        )}
       />
     </Switch>
 
