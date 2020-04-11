@@ -27,6 +27,11 @@ function App() {
           />
         )}
       />
+      <Route
+        exact
+        path="/palette/:paletteId/:colorID"
+        render={() => <h1>single Palette clicked</h1>}
+      />
     </Switch>
 
     // <div className="App">
