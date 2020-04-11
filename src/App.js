@@ -11,7 +11,13 @@ function App() {
   };
   return (
     <Switch>
-      <Route exact path="/" render={() => <HomePage palettes={seedColor} />} />
+      <Route
+        exact
+        path="/"
+        render={(routeProps) => (
+          <HomePage palettes={seedColor} {...routeProps} />
+        )}
+      />
       <Route
         exact
         path="/palette/:id"
