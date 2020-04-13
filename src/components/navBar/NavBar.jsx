@@ -27,35 +27,37 @@ class NavBar extends Component {
     });
   };
   render() {
-    const { changeLevel, level } = this.props;
+    const { changeLevel, level, inOneColorPalette } = this.props;
     return (
       <header className="navbar">
         <div className="logo">
           <Link to="/">React Project</Link>
         </div>
-        <div className="slider-container">
-          <span> Level : {level}</span>
+        {inOneColorPalette && (
+          <div className="slider-container">
+            <span> Level : {level}</span>
 
-          <div className="slider">
-            <Slider
-              step={100}
-              defaultValue={level}
-              min={100}
-              max={900}
-              onAfterChange={changeLevel}
-              handleStyle={{
-                backgroundColor: "#202020",
-                outline: "none",
-                border: "2px solid #202020",
-                boxShadow: "none",
-                width: "18px",
-                height: "18px",
-              }}
-              trackStyle={{ backgroundColor: "transparent" }}
-              railStyle={{ height: "8px" }}
-            />
+            <div className="slider">
+              <Slider
+                step={100}
+                defaultValue={level}
+                min={100}
+                max={900}
+                onAfterChange={changeLevel}
+                handleStyle={{
+                  backgroundColor: "#202020",
+                  outline: "none",
+                  border: "2px solid #202020",
+                  boxShadow: "none",
+                  width: "18px",
+                  height: "18px",
+                }}
+                trackStyle={{ backgroundColor: "transparent" }}
+                railStyle={{ height: "8px" }}
+              />
+            </div>
           </div>
-        </div>
+        )}
         <div className="select-container">
           <Select onChange={this.handleChange}>
             <MenuItem value="hex">Hex - #ffffff</MenuItem>
