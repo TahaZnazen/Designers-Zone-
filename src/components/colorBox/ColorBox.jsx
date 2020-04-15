@@ -8,7 +8,7 @@ import { withStyles } from "@material-ui/core/styles";
 const styles = {
   colorBox: {
     width: "20%",
-    height: "25%",
+    height: (props) => (props.showLink ? "25%" : "50%"),
     margin: "0 auto",
     display: "inline-block",
     position: "relative",
@@ -36,6 +36,26 @@ const styles = {
     textAlign: "center",
     lineHeight: "30px",
   },
+  backButton: {
+    width: "100px",
+    height: "30px",
+    position: "absolute",
+    display: "inline-block",
+    top: "50%",
+    left: "50%",
+    marginLeft: "-50px",
+    marginTop: "-15px",
+    textAlign: "center",
+    outline: "none",
+    background: "rgba(255, 255, 255, 0.3)",
+    fontSize: "1rem",
+    lineHeight: "30px",
+    color: (props) =>
+      chroma(props.background).luminance() >= 0.5 ? "#202020" : "white",
+    border: "none",
+    transition: "0.5s",
+    textDecoration: "none",
+  },
   copieButton: {
     width: "100px",
     height: "30px",
@@ -51,11 +71,73 @@ const styles = {
     fontSize: "1rem",
     lineHeight: "30px",
     color: (props) =>
-      chroma(props.background).luminance() >= 0.7 ? "#202020" : "white",
+      chroma(props.background).luminance() >= 0.5 ? "#202020" : "white",
     border: "none",
     transition: "0.5s",
     textDecoration: "none",
     opacity: "0",
+  },
+  copyOverlay: {
+    opacity: "0",
+    zIndex: "0",
+    width: "100%",
+    height: "100%",
+    transition: "transform 0.6s ease-in-out",
+    transform: "scale(0.1)",
+  },
+  copyOverlayShow: {
+    opacity: "1",
+    transform: " scale(50)",
+    zIndex: " 10",
+    position: " absolute",
+  },
+  copyMsg: {
+    position: "fixed",
+    top: "0",
+    bottom: "0",
+    right: "0",
+    left: "0",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+    flexDirection: "column",
+    fontSize: "4rem",
+    transform: "scale(0.1)",
+    opacity: "0",
+    color: "white",
+    "& h1": {
+      fontWeight: "400",
+      textShadow: " 1px 2px black",
+      backgroundColor: "rgba(255, 255, 255, 0.2)",
+      width: "100%",
+      textAlign: "center",
+      marginBottom: "0",
+      padding: "1rem",
+      textTransform: "uppercase",
+      fontFamily: "sans-serif",
+    },
+    "& p": {
+      fontSize: "2rem",
+      fontWeight: " 100",
+    },
+  },
+  copyMsgShow: {
+    opacity: "1",
+    transform: "scale(1)",
+    zIndex: "11",
+    transition: "all 0.4s ease-in-out",
+    transitionDelay: "0.3s",
+  },
+  boxContent: {
+    position: "absolute",
+    padding: "10px",
+    width: "100%",
+    left: "0",
+    bottom: "0",
+    color: "black",
+    letterSpacing: " 1px",
+    textTransform: "uppercase",
+    fontSize: "12px",
   },
 };
 
@@ -79,14 +161,18 @@ class ColorBox extends Component {
         <div style={{ background }} className={classes.colorBox}>
           <div
             style={{ background }}
-            className={`copy-overlay ${copied && "show"}`}
+            className={`${classes.copyOverlay} ${
+              copied && classes.copyOverlayShow
+            }`}
           />
-          <div className={`copy-msg ${copied && "show"}`}>
+          <div
+            className={`${classes.copyMsg} ${copied && classes.copyMsgShow}`}
+          >
             <h1 className={classes.copied}> COPIED !</h1>
             <p className={classes.copied}>{background}</p>
           </div>
           <div className="copy-container">
-            <div className="box-content">
+            <div className={classes.boxContent}>
               <span className={classes.copied}>{name}</span>
             </div>
             <button className={classes.copieButton}>Copy</button>
