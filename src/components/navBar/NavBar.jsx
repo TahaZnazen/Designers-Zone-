@@ -8,7 +8,8 @@ import Snackbar from "@material-ui/core/Snackbar";
 import IconButton from "@material-ui/core/IconButton";
 import CloseIcon from "@material-ui/icons/Close";
 import { Link } from "react-router-dom";
-
+import { withStyles } from "@material-ui/core/styles";
+import styles from "../../styles/navBarStyles";
 class NavBar extends Component {
   state = {
     format: "hex",
@@ -27,17 +28,17 @@ class NavBar extends Component {
     });
   };
   render() {
-    const { changeLevel, level, inOneColorPalette } = this.props;
+    const { changeLevel, level, inOneColorPalette, classes } = this.props;
     return (
-      <header className="navbar">
-        <div className="logo">
+      <header className={classes.navbar}>
+        <div className={classes.logo}>
           <Link to="/">React Project</Link>
         </div>
         {inOneColorPalette && (
           <div className="slider-container">
             <span> Level : {level}</span>
 
-            <div className="slider">
+            <div className={classes.slider}>
               <Slider
                 step={100}
                 defaultValue={level}
@@ -58,7 +59,7 @@ class NavBar extends Component {
             </div>
           </div>
         )}
-        <div className="select-container">
+        <div className={classes.selectContainer}>
           <Select onChange={this.handleChange}>
             <MenuItem value="hex">Hex - #ffffff</MenuItem>
             <MenuItem value="rgb">RGB - rgb(255,255,255)</MenuItem>
@@ -88,4 +89,4 @@ class NavBar extends Component {
     );
   }
 }
-export default NavBar;
+export default withStyles(styles)(NavBar);

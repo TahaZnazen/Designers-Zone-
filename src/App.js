@@ -6,12 +6,19 @@ import { Route, Switch } from "react-router-dom";
 import seedColor from "./seedColor";
 import HomePage from "./components/HomePage/HomePage";
 import SingleColorPalette from "./components/singleColorPalette/SingleColorPalette";
+import NewPalette from "./components/createPalette/NewPalette";
+
 function App() {
   const findPalette = (id) => {
     return seedColor.find((palette) => palette.id === id);
   };
   return (
     <Switch>
+      <Route
+        exact
+        path="/palette/new"
+        render={(routeProps) => <NewPalette {...routeProps} />}
+      />
       <Route
         exact
         path="/"
