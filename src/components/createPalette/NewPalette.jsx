@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
 import { ChromePicker } from "react-color";
@@ -13,7 +13,7 @@ import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import DraggableBox from "../draggableColorBox/DraggableBox";
-
+import Validator from "./Validator";
 const drawerWidth = 350;
 
 const useStyles = makeStyles((theme) => ({
@@ -78,7 +78,8 @@ export default function NewPalette() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [pickedColor, newColor] = React.useState("green");
-  const [colors, addColor] = React.useState(["green", "red", "blue"]);
+  const [colors, addColor] = React.useState([{ name: "blue", color: "blue" }]);
+  const [name, newName] = React.useState("");
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -86,6 +87,14 @@ export default function NewPalette() {
 
   const handleDrawerClose = () => {
     setOpen(false);
+  };
+  const handleName = (e) => {
+    newName(e.target.value);
+  };
+  const handleColor = () => {
+    const newColor = { color: pickedColor, name: name };
+    addColor([...colors, newColor]);
+    console.log(newColor);
   };
 
   return (
@@ -140,13 +149,13 @@ export default function NewPalette() {
           color={pickedColor}
           onChangeComplete={(color) => newColor(color.hex)}
         />
-        <Button
-          variant="contained"
-          style={{ backgroundColor: pickedColor }}
-          onClick={() => addColor([...colors, pickedColor])}
-        >
-          Add Color
-        </Button>
+        <Validator
+          handleColor={handleColor}
+          name={name}
+          handleName={handleName}
+          pickedColor={pickedColor}
+          colors={colors}
+        />
       </Drawer>
       <main
         className={clsx(classes.content, {
@@ -155,7 +164,7 @@ export default function NewPalette() {
       >
         <div className={classes.drawerHeader} />
         {colors.map((elm) => (
-          <DraggableBox color={elm} />
+          <DraggableBox color={elm.color} name={elm.name} />
         ))}
       </main>
     </div>
