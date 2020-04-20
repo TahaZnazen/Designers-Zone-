@@ -12,6 +12,7 @@ import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import DraggableBox from "../draggableColorBox/DraggableBox";
 
 const drawerWidth = 350;
 
@@ -55,6 +56,7 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "flex-end",
   },
   content: {
+    height: "calc(100vh - 64px)",
     flexGrow: 1,
     padding: theme.spacing(3),
     transition: theme.transitions.create("margin", {
@@ -75,6 +77,8 @@ const useStyles = makeStyles((theme) => ({
 export default function NewPalette() {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
+  const [pickedColor, newColor] = React.useState("green");
+  const [colors, addColor] = React.useState(["green", "red", "blue"]);
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -133,10 +137,14 @@ export default function NewPalette() {
           </Button>
         </div>
         <ChromePicker
-          color="red"
-          onChangeComplete={(newColor) => console.log(newColor)}
+          color={pickedColor}
+          onChangeComplete={(color) => newColor(color.hex)}
         />
-        <Button variant="contained" color="primary">
+        <Button
+          variant="contained"
+          style={{ backgroundColor: pickedColor }}
+          onClick={() => addColor([...colors, pickedColor])}
+        >
           Add Color
         </Button>
       </Drawer>
@@ -146,6 +154,9 @@ export default function NewPalette() {
         })}
       >
         <div className={classes.drawerHeader} />
+        {colors.map((elm) => (
+          <DraggableBox color={elm} />
+        ))}
       </main>
     </div>
   );
