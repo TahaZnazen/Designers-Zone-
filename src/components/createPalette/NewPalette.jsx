@@ -74,7 +74,7 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-export default function NewPalette() {
+export default function NewPalette(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [pickedColor, newColor] = React.useState("green");
@@ -94,13 +94,22 @@ export default function NewPalette() {
   const handleColor = () => {
     const newColor = { color: pickedColor, name: name };
     addColor([...colors, newColor]);
-    console.log(newColor);
   };
-
+  const savePalette = () => {
+    const newName = "test palette";
+    const newPalette = {
+      paletteName: newName,
+      id: newName.toLowerCase().replace(/ /g, "-"),
+      colors: colors,
+    };
+    props.savePalette(newPalette);
+    props.history.push("/");
+  };
   return (
     <div className={classes.root}>
       <CssBaseline />
       <AppBar
+        color="default"
         position="fixed"
         className={clsx(classes.appBar, {
           [classes.appBarShift]: open,
@@ -119,6 +128,9 @@ export default function NewPalette() {
           <Typography variant="h6" noWrap>
             Persistent drawer
           </Typography>
+          <Button variant="contained" color="primary" onClick={savePalette}>
+            Save
+          </Button>
         </Toolbar>
       </AppBar>
       <Drawer
