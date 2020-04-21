@@ -23,7 +23,11 @@ function App() {
         exact
         path="/palette/new"
         render={(routeProps) => (
-          <NewPalette savePalette={savePalette} {...routeProps} />
+          <NewPalette
+            palettes={paletteList}
+            savePalette={savePalette}
+            {...routeProps}
+          />
         )}
       />
       <Route

@@ -14,6 +14,7 @@ import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
 import DraggableBox from "../draggableColorBox/DraggableBox";
 import Validator from "./Validator";
+import NameValidator from "./paletteNameValidator";
 const drawerWidth = 350;
 
 const useStyles = makeStyles((theme) => ({
@@ -80,6 +81,7 @@ export default function NewPalette(props) {
   const [pickedColor, newColor] = React.useState("green");
   const [colors, addColor] = React.useState([{ name: "blue", color: "blue" }]);
   const [name, newName] = React.useState("");
+  const [paletteName, newPaletteName] = React.useState("");
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -95,11 +97,13 @@ export default function NewPalette(props) {
     const newColor = { color: pickedColor, name: name };
     addColor([...colors, newColor]);
   };
+  const handlePaletteName = (e) => {
+    newPaletteName(e.target.value);
+  };
   const savePalette = () => {
-    const newName = "test palette";
     const newPalette = {
-      paletteName: newName,
-      id: newName.toLowerCase().replace(/ /g, "-"),
+      paletteName: paletteName,
+      id: paletteName.toLowerCase().replace(/ /g, "-"),
       colors: colors,
     };
     props.savePalette(newPalette);
@@ -115,7 +119,7 @@ export default function NewPalette(props) {
           [classes.appBarShift]: open,
         })}
       >
-        <Toolbar>
+        <Toolbar style={{ display: "flex" }}>
           <IconButton
             color="inherit"
             aria-label="open drawer"
@@ -128,10 +132,15 @@ export default function NewPalette(props) {
           <Typography variant="h6" noWrap>
             Persistent drawer
           </Typography>
-          <Button variant="contained" color="primary" onClick={savePalette}>
-            Save
-          </Button>
+          <NameValidator
+            paletteName={paletteName}
+            handlePaletteName={handlePaletteName}
+            savePalette={savePalette}
+            palettes={props.palettes}
+          />
         </Toolbar>
+
+        {/* / */}
       </AppBar>
       <Drawer
         className={classes.drawer}
