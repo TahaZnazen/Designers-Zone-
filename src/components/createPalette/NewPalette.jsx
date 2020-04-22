@@ -12,9 +12,11 @@ import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
 import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import DraggableBox from "../draggableColorBox/DraggableBox";
 import Validator from "./Validator";
 import NameValidator from "./paletteNameValidator";
+import DraggableColorContainer from "../draggableColorList/DraggableColorContainer";
+import { arrayMove } from "react-sortable-hoc";
+
 const drawerWidth = 350;
 
 const useStyles = makeStyles((theme) => ({
@@ -113,6 +115,10 @@ export default function NewPalette(props) {
     const newColors = colors.filter((elm) => elm.name !== colorName);
     addColor(newColors);
   };
+  const onSortEnd = ({ oldIndex, newIndex }) => {
+    const newColors = arrayMove(colors, oldIndex, newIndex);
+    addColor(newColors);
+  };
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -188,14 +194,12 @@ export default function NewPalette(props) {
         })}
       >
         <div className={classes.drawerHeader} />
-        {colors.map((elm) => (
-          <DraggableBox
-            deleteColor={() => deleteColor(elm.name)}
-            key={elm.name}
-            color={elm.color}
-            name={elm.name}
-          />
-        ))}
+        <DraggableColorContainer
+          colors={colors}
+          deleteColor={deleteColor}
+          axis="xy"
+          onSortEnd={onSortEnd}
+        />
       </main>
     </div>
   );
