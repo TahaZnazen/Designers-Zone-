@@ -109,6 +109,10 @@ export default function NewPalette(props) {
     props.savePalette(newPalette);
     props.history.push("/");
   };
+  const deleteColor = (colorName) => {
+    const newColors = colors.filter((elm) => elm.name !== colorName);
+    addColor(newColors);
+  };
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -185,7 +189,12 @@ export default function NewPalette(props) {
       >
         <div className={classes.drawerHeader} />
         {colors.map((elm) => (
-          <DraggableBox color={elm.color} name={elm.name} />
+          <DraggableBox
+            deleteColor={() => deleteColor(elm.name)}
+            key={elm.name}
+            color={elm.color}
+            name={elm.name}
+          />
         ))}
       </main>
     </div>
