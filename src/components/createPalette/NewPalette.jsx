@@ -81,7 +81,7 @@ export default function NewPalette(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
   const [pickedColor, newColor] = React.useState("green");
-  const [colors, addColor] = React.useState([{ name: "blue", color: "blue" }]);
+  const [colors, addColor] = React.useState(props.palettes[0].colors);
   const [name, newName] = React.useState("");
   const [paletteName, newPaletteName] = React.useState("");
 
@@ -119,6 +119,16 @@ export default function NewPalette(props) {
     const newColors = arrayMove(colors, oldIndex, newIndex);
     addColor(newColors);
   };
+  const clearColors = () => {
+    addColor([]);
+  };
+  const randomColor = () => {
+    const allColors = props.palettes.map((elm) => elm.colors).flat();
+    var randomIndex = Math.floor(Math.random() * allColors.length);
+    const randomColors = allColors[randomIndex];
+    addColor([...colors, randomColors]);
+  };
+  const { maxColors } = props;
   return (
     <div className={classes.root}>
       <CssBaseline />
@@ -169,10 +179,15 @@ export default function NewPalette(props) {
         <Divider />
         <Typography variant="h4">Design Your Palette</Typography>
         <div>
-          <Button variant="contained" color="secondary">
+          <Button variant="contained" color="secondary" onClick={clearColors}>
             Clear Palette
           </Button>
-          <Button variant="contained" color="primary">
+          <Button
+            disabled={colors.length >= maxColors}
+            variant="contained"
+            color="primary"
+            onClick={randomColor}
+          >
             Pick Randomly
           </Button>
         </div>
@@ -186,6 +201,7 @@ export default function NewPalette(props) {
           handleName={handleName}
           pickedColor={pickedColor}
           colors={colors}
+          isFull={colors.length >= maxColors}
         />
       </Drawer>
       <main

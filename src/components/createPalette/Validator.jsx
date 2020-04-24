@@ -14,7 +14,7 @@ export default class Validator extends Component {
     );
   }
   render() {
-    const { handleColor, name, handleName, pickedColor } = this.props;
+    const { handleColor, name, handleName, pickedColor, isFull } = this.props;
     return (
       <ValidatorForm onSubmit={handleColor}>
         <TextValidator
@@ -30,9 +30,10 @@ export default class Validator extends Component {
         <Button
           variant="contained"
           type="submit"
-          style={{ backgroundColor: pickedColor }}
+          style={{ backgroundColor: isFull ? "grey" : pickedColor }}
+          disabled={isFull}
         >
-          Add Color
+          {isFull ? "Palette Full" : "Add Color"}
         </Button>
       </ValidatorForm>
     );

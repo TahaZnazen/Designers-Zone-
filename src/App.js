@@ -27,6 +27,7 @@ function App() {
             palettes={paletteList}
             savePalette={savePalette}
             {...routeProps}
+            maxColors={20}
           />
         )}
       />
