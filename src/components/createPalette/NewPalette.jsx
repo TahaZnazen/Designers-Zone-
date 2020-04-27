@@ -1,22 +1,16 @@
-import React, { useEffect } from "react";
+import React from "react";
 import clsx from "clsx";
 import { makeStyles } from "@material-ui/core/styles";
-import { ChromePicker } from "react-color";
 import Button from "@material-ui/core/Button";
 import Drawer from "@material-ui/core/Drawer";
-import CssBaseline from "@material-ui/core/CssBaseline";
-import AppBar from "@material-ui/core/AppBar";
-import Toolbar from "@material-ui/core/Toolbar";
 import Typography from "@material-ui/core/Typography";
 import Divider from "@material-ui/core/Divider";
 import IconButton from "@material-ui/core/IconButton";
-import MenuIcon from "@material-ui/icons/Menu";
 import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
-import Validator from "./Validator";
-import NameValidator from "./paletteNameValidator";
 import DraggableColorContainer from "../draggableColorList/DraggableColorContainer";
 import { arrayMove } from "react-sortable-hoc";
-
+import PaletteFormNav from "./PaletteFormNav";
+import ColorPickerForm from "./ColorPickerForm";
 const drawerWidth = 350;
 
 const useStyles = makeStyles((theme) => ({
@@ -75,15 +69,29 @@ const useStyles = makeStyles((theme) => ({
     }),
     marginLeft: 0,
   },
+  container: {
+    width: "100%",
+    display: "flex",
+    flexDirection: "column",
+    justifyContent: "center",
+    alignItems: "center",
+    height: "100%",
+  },
+  buttons: {
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+  },
+  button: {
+    width: "44%",
+    margin: "0 1%",
+  },
 }));
 
 export default function NewPalette(props) {
   const classes = useStyles();
   const [open, setOpen] = React.useState(false);
-  const [pickedColor, newColor] = React.useState("green");
   const [colors, addColor] = React.useState(props.palettes[0].colors);
-  const [name, newName] = React.useState("");
-  const [paletteName, newPaletteName] = React.useState("");
 
   const handleDrawerOpen = () => {
     setOpen(true);
@@ -92,25 +100,7 @@ export default function NewPalette(props) {
   const handleDrawerClose = () => {
     setOpen(false);
   };
-  const handleName = (e) => {
-    newName(e.target.value);
-  };
-  const handleColor = () => {
-    const newColor = { color: pickedColor, name: name };
-    addColor([...colors, newColor]);
-  };
-  const handlePaletteName = (e) => {
-    newPaletteName(e.target.value);
-  };
-  const savePalette = () => {
-    const newPalette = {
-      paletteName: paletteName,
-      id: paletteName.toLowerCase().replace(/ /g, "-"),
-      colors: colors,
-    };
-    props.savePalette(newPalette);
-    props.history.push("/");
-  };
+
   const deleteColor = (colorName) => {
     const newColors = colors.filter((elm) => elm.name !== colorName);
     addColor(newColors);
@@ -131,37 +121,16 @@ export default function NewPalette(props) {
   const { maxColors } = props;
   return (
     <div className={classes.root}>
-      <CssBaseline />
-      <AppBar
-        color="default"
-        position="fixed"
-        className={clsx(classes.appBar, {
-          [classes.appBarShift]: open,
-        })}
-      >
-        <Toolbar style={{ display: "flex" }}>
-          <IconButton
-            color="inherit"
-            aria-label="open drawer"
-            onClick={handleDrawerOpen}
-            edge="start"
-            className={clsx(classes.menuButton, open && classes.hide)}
-          >
-            <MenuIcon />
-          </IconButton>
-          <Typography variant="h6" noWrap>
-            Persistent drawer
-          </Typography>
-          <NameValidator
-            paletteName={paletteName}
-            handlePaletteName={handlePaletteName}
-            savePalette={savePalette}
-            palettes={props.palettes}
-          />
-        </Toolbar>
+      <PaletteFormNav
+        open={open}
+        classes={classes}
+        handleDrawerOpen={handleDrawerOpen}
+        palettes={props.palettes}
+        colors={colors}
+        savePalettes={props.savePalettes}
+        history={props.history}
+      />
 
-        {/* / */}
-      </AppBar>
       <Drawer
         className={classes.drawer}
         variant="persistent"
@@ -171,38 +140,39 @@ export default function NewPalette(props) {
           paper: classes.drawerPaper,
         }}
       >
-        <div className={classes.drawerHeader}>
-          <IconButton onClick={handleDrawerClose}>
-            <ChevronLeftIcon />
-          </IconButton>
+        <div className={classes.container}>
+          <div className={classes.drawerHeader}>
+            <IconButton onClick={handleDrawerClose}>
+              <ChevronLeftIcon />
+            </IconButton>
+          </div>
+          <Divider />
+          <Typography variant="h4">Design Your Palette</Typography>
+          <div className={classes.buttons}>
+            <Button
+              variant="contained"
+              color="secondary"
+              onClick={clearColors}
+              className={classes.button}
+            >
+              Clear Palette
+            </Button>
+            <Button
+              disabled={colors.length >= maxColors}
+              variant="contained"
+              color="primary"
+              onClick={randomColor}
+              className={classes.button}
+            >
+              Pick Randomly
+            </Button>
+          </div>
+          <ColorPickerForm
+            maxColors={maxColors}
+            colors={colors}
+            addColor={addColor}
+          />
         </div>
-        <Divider />
-        <Typography variant="h4">Design Your Palette</Typography>
-        <div>
-          <Button variant="contained" color="secondary" onClick={clearColors}>
-            Clear Palette
-          </Button>
-          <Button
-            disabled={colors.length >= maxColors}
-            variant="contained"
-            color="primary"
-            onClick={randomColor}
-          >
-            Pick Randomly
-          </Button>
-        </div>
-        <ChromePicker
-          color={pickedColor}
-          onChangeComplete={(color) => newColor(color.hex)}
-        />
-        <Validator
-          handleColor={handleColor}
-          name={name}
-          handleName={handleName}
-          pickedColor={pickedColor}
-          colors={colors}
-          isFull={colors.length >= maxColors}
-        />
       </Drawer>
       <main
         className={clsx(classes.content, {

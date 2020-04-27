@@ -14,7 +14,7 @@ function App() {
     return paletteList.find((palette) => palette.id === id);
   };
 
-  const savePalette = (newPalette) => {
+  const savePalettes = (newPalette) => {
     newPaletteList([...paletteList, newPalette]);
   };
   return (
@@ -25,7 +25,7 @@ function App() {
         render={(routeProps) => (
           <NewPalette
             palettes={paletteList}
-            savePalette={savePalette}
+            savePalettes={savePalettes}
             {...routeProps}
             maxColors={20}
           />

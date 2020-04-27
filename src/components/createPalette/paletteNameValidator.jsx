@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import { ValidatorForm, TextValidator } from "react-material-ui-form-validator";
 import Button from "@material-ui/core/Button";
+import { Link } from "react-router-dom";
 
 export default class NameValidator extends Component {
   componentDidMount() {
@@ -24,6 +25,11 @@ export default class NameValidator extends Component {
         <Button variant="contained" color="primary" type="submit">
           Save Palette
         </Button>
+        <Link to="/">
+          <Button variant="contained" color="secondary">
+            Go Back
+          </Button>
+        </Link>
       </ValidatorForm>
     );
   }
