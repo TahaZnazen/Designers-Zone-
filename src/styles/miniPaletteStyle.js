@@ -42,7 +42,6 @@ const styles = {
     marginBottom: "-3.5px",
     display: "inline-block",
   },
-  delete: {},
   deleteIcon: {
     color: "white",
     backgroundColor: "#ab3d30",

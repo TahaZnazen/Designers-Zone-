@@ -8,7 +8,7 @@ class HomePage extends Component {
     this.props.history.push(`/palette/${id}`);
   };
   render() {
-    const { palettes, classes } = this.props;
+    const { palettes, classes, deletePalettes } = this.props;
     return (
       <div className={classes.root}>
         <div className={classes.container}>
@@ -21,6 +21,9 @@ class HomePage extends Component {
               <MiniPalette
                 {...palette}
                 goToPalette={() => this.goToPalette(palette.id)}
+                deletePalettes={deletePalettes}
+                key={palette.id}
+                id={palette.id}
               />
             ))}
           </div>
