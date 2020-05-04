@@ -140,12 +140,12 @@ export default function NewPalette(props) {
           paper: classes.drawerPaper,
         }}
       >
+        <div className={classes.drawerHeader}>
+          <IconButton onClick={handleDrawerClose}>
+            <ChevronLeftIcon />
+          </IconButton>
+        </div>
         <div className={classes.container}>
-          <div className={classes.drawerHeader}>
-            <IconButton onClick={handleDrawerClose}>
-              <ChevronLeftIcon />
-            </IconButton>
-          </div>
           <Divider />
           <Typography variant="h4">Design Your Palette</Typography>
           <div className={classes.buttons}>
