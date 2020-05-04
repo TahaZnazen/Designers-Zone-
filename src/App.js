@@ -1,6 +1,5 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Palette from "./components/Palette";
-import colorsPalettes from "./seedColor";
 import { generatePalette } from "./colorHelper";
 import { Route, Switch } from "react-router-dom";
 import seedColor from "./seedColor";
@@ -9,7 +8,8 @@ import SingleColorPalette from "./components/singleColorPalette/SingleColorPalet
 import NewPalette from "./components/createPalette/NewPalette";
 
 function App() {
-  const [paletteList, newPaletteList] = React.useState(seedColor);
+  const savedPalettes = JSON.parse(window.localStorage.getItem("palettes"));
+  const [paletteList, newPaletteList] = useState(savedPalettes || seedColor);
   const findPalette = (id) => {
     return paletteList.find((palette) => palette.id === id);
   };
@@ -17,6 +17,11 @@ function App() {
   const savePalettes = (newPalette) => {
     newPaletteList([...paletteList, newPalette]);
   };
+  React.useEffect(() => {
+    window.localStorage.setItem("palettes", JSON.stringify(paletteList));
+    console.log(paletteList);
+  }, [paletteList]);
+
   return (
     <Switch>
       <Route
