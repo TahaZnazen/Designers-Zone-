@@ -8,6 +8,7 @@ import Typography from "@material-ui/core/Typography";
 import IconButton from "@material-ui/core/IconButton";
 import AddToPhotos from "@material-ui/icons/AddToPhotos";
 import NameValidator from "./paletteNameValidator";
+import sizes from "../../styles/sizes";
 
 const styles = {
   navContainer: {
@@ -15,6 +16,12 @@ const styles = {
     justifyContent: "space-between",
     width: "100%",
     alignItems: "center",
+    "& button": {
+      [sizes.down("xs")]: {
+        width: "30%",
+        height: "30px",
+      },
+    },
   },
 };
 function PaletteFormNav(props) {

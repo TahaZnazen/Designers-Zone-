@@ -98,9 +98,9 @@ export default class NameValidator extends Component {
           <Button
             variant="contained"
             color="secondary"
-            style={{ marginLeft: "0.5rem" }}
+            style={{ margin: "0.2rem" }}
           >
-            Go Back
+            Back
           </Button>
         </Link>
       </div>

@@ -14,13 +14,13 @@ const styles = {
       opacity: "1",
     },
     [sizes.down("lg")]: {
-      width: "25%",
-      height: (props) => (props.showLink ? "20%" : "50%"),
+      width: "33.3333%",
+      height: (props) => (props.showLink ? "20%" : "30%"),
       marginBottom: "-4px",
     },
     [sizes.down("md")]: {
       width: "50%",
-      height: (props) => (props.showLink ? "10%" : "50%"),
+      height: (props) => (props.showLink ? "10%" : "20%"),
     },
     [sizes.down("xs")]: {
       width: "100%",
@@ -124,6 +124,9 @@ const styles = {
       padding: "1rem",
       textTransform: "uppercase",
       fontFamily: "sans-serif",
+      [sizes.down("xs")]: {
+        fontSize: "6rem",
+      },
     },
     "& p": {
       fontSize: "2rem",

@@ -1,3 +1,5 @@
+import sizes from "./sizes";
+
 const styles = {
   navbar: {
     display: "flex",
@@ -14,6 +16,9 @@ const styles = {
     height: "100%",
     display: "flex",
     alignItems: "center",
+    [sizes.down("xs")]: {
+      display: "none",
+    },
     "& a": {
       textDecoration: "none",
       color: "#202020",
@@ -28,6 +33,9 @@ const styles = {
     width: "340px",
     margin: "0 10px",
     display: "inline-block",
+    [sizes.down("md")]: {
+      width: "150px",
+    },
   },
 };
 export default styles;

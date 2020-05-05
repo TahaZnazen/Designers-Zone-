@@ -1,3 +1,5 @@
+import sizes from "./sizes";
+
 const styles = {
   palette: {
     height: "100vh",
@@ -14,9 +16,22 @@ const styles = {
     display: "inline-block",
     position: "relative",
     cursor: "pointer",
-    marginBottom: "-3.5px",
+    marginBottom: "-4px",
     opacity: 1,
     backgroundColor: "black",
+    [sizes.down("lg")]: {
+      width: "100%",
+      height: "10%",
+    },
+    [sizes.down("md")]: {
+      width: "50%",
+      height: "20%",
+    },
+    [sizes.down("xs")]: {
+      width: "100%",
+      height: "10%",
+    },
+
     "& a": {
       color: "white",
       width: "100px",
